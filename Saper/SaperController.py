@@ -1,3 +1,4 @@
+# coding=utf-8
 import random as rand
 import numpy as np
 
@@ -7,6 +8,13 @@ class SaperController():
         self.sizex = 0
         self.sizey = 0
         self.board = []
+
+    def getSizeX(self):
+        return self.sizex
+
+    def getSizeY(self):
+        return self.sizey
+
 
     def createBoard(self, bombs, sizex, sizey):
         if bombs>sizex*sizey:
@@ -109,6 +117,7 @@ class SaperController():
         toRet=np.transpose(toRet)
         toRet=np.transpose(toRet)
         return toRet
+
 
 
 saper = SaperController()
