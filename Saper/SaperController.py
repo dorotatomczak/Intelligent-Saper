@@ -25,6 +25,7 @@ class SaperController():
         self.sizey = sizey
         self.board = [[0 for y in range(sizey)] for x in range(sizex)]
         self.covered = [[True for y in range(sizey)] for x in range(sizex)]
+        self.outBoard = [[" " for y in range(sizey)] for x in range(sizex)]
 
         while success < bombs:
             x = rand.randint(0, sizex - 1)
@@ -107,21 +108,27 @@ class SaperController():
                 if x<self.sizex-1 and y>0:
                     self.uncoverField(x+1,y-1)
 
-        toRet = [[-2 for y in range(self.sizey)] for x in range(self.sizex)]
         for x in range(0, self.sizex):
                 for y in range(0, self.sizey):
                     if self.covered[x][y]==False:
-                        toRet[x][y]=self.board[x][y]
+                        self.outBoard[x][y]=self.board[x][y]
 
         #transpose, żeby w konsoli wyświetlało rząd pod rzędem jako tablicę z numpy. Można potem usunąć
-        toRet=np.transpose(toRet)
-        toRet=np.transpose(toRet)
-        return toRet
+        self.outBoard=np.transpose(self.outBoard)
+        self.outBoard=np.transpose(self.outBoard)
+
+    def GetSizeX(self):
+        return self.sizex
+
+    def GetSizeY(self):
+        return self.sizey
+
+    def GetBoard(self):
+        return self.outBoard
 
 
 
 saper = SaperController()
 saper.createBoard(5, 10, 10)
 print(saper.board)
-print(saper.uncoverField(1,1))
-print(saper.uncoverField(2,1))
+print(saper.GetBoard())
