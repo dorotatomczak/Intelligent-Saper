@@ -15,7 +15,8 @@ class SaperController():
         success = 0
         self.sizex = sizex
         self.sizey = sizey
-        self.board = [[0 for x in range(sizex)] for y in range(sizey)]
+        self.board = [[0 for y in range(sizey)] for x in range(sizex)]
+        self.covered = [[True for y in range(sizey)] for x in range(sizex)]
 
         while success < bombs:
             x = rand.randint(0, sizex - 1)
@@ -28,72 +29,90 @@ class SaperController():
         for x in range(1, sizex - 1):
                 for y in range(1, sizey - 1):
                     if self.board[x][y] == 0:
-                        self.board[x][y] = (self.board[x - 1][y - 1] == -1) + (self.board[x - 1][y] == -1) + (
-                            self.board[x - 1][y + 1] == -1) + \
-                                           (self.board[x][
-                                                y - 1] == -1) + \
-                                           (self.board[
-                                                x][
-                                                y + 1] == -1) + \
-                                           (self.board[
-                                                x + 1][
-                                                y - 1] == -1) + \
-                                           (self.board[
-                                                x + 1][
-                                                y] == -1) + \
-                                           (self.board[
-                                                x + 1][
-                                                y + 1] == -1)
+                        self.board[x][y] = int(self.board[x - 1][y - 1] == -1) + (self.board[x - 1][y] == -1) + (
+                            self.board[x - 1][y + 1] == -1) + (self.board[x][y - 1] == -1) + \
+                                           (self.board[x][y + 1] == -1) + (self.board[x + 1][y - 1] == -1) + \
+                                           (self.board[x + 1][y] == -1) + (self.board[x + 1][y + 1] == -1)
         # ustalenie ilości bomb w rogach
         if self.board[0][0] == 0:
-            self.board[0][0] = (self.board[1][0] == -1) + (self.board[1][1] == -1) + (self.board[0][1] == -1)
+            self.board[0][0] = int(self.board[1][0] == -1) + (self.board[1][1] == -1) + (self.board[0][1] == -1)
 
         if self.board[0][self.sizey - 1] == 0:
-            self.board[0][self.sizey - 1] = (self.board[1][self.sizey - 1] == -1) + (
+            self.board[0][self.sizey - 1] = int(self.board[1][self.sizey - 1] == -1) + (
                 self.board[1][self.sizey - 2] == -1) + (self.board[0][self.sizey - 2] == -1)
 
         if self.board[self.sizex - 1][0] == 0:
-            self.board[self.sizex - 1][0] = (self.board[self.sizex - 2][0] == -1) + (
+            self.board[self.sizex - 1][0] = int(self.board[self.sizex - 2][0] == -1) + (
                 self.board[self.sizex - 2][1] == -1) + (self.board[self.sizex - 1][1] == -1)
 
         if self.board[self.sizex - 1][self.sizey - 1] == 0:
-            self.board[self.sizex - 1][self.sizey - 1] = (self.board[self.sizex - 2][self.sizey - 1] == -1) + (
+            self.board[self.sizex - 1][self.sizey - 1] = int(self.board[self.sizex - 2][self.sizey - 1] == -1) + (
                 self.board[self.sizex - 2][self.sizey - 2] == -1) + (self.board[self.sizex - 1][self.sizey - 2] == -1)
 
         # ustalenie ilości bomb na brzegach planszy
         for x in range(1, self.sizex - 1):
             if self.board[x][0] == 0:
-                self.board[x][0] = (self.board[x - 1][0] == -1) + \
+                self.board[x][0] = int(self.board[x - 1][0] == -1) + \
                                    (self.board[x - 1][1] == -1) + \
                                    (self.board[x][1] == -1) + \
                                    (self.board[x + 1][1] == -1) + \
                                    (self.board[x + 1][0] == -1)
             if self.board[x][self.sizey - 1] == 0:
-                    self.board[x][self.sizey - 1] = (self.board[x - 1][self.sizey - 1] == -1) + (self.board[x - 1][
+                    self.board[x][self.sizey - 1] = int(self.board[x - 1][self.sizey - 1] == -1) + (self.board[x - 1][
                                                                                                      self.sizey - 2] == -1) + (
                                                     self.board[x][self.sizey - 2] == -1) + (self.board[x + 1][
                                                                                                 self.sizey - 2] == -1) + (
                                                     self.board[x + 1][self.sizey - 1] == -1)
 
-        # print(self.board)
+        self.board = np.transpose(self.board)
+        for y in range(1, self.sizey - 1):
+            if self.board[y][0] == 0:
+                self.board[y][0] = int(self.board[y - 1][0] == -1) + (self.board[y - 1][1] == -1) + (self.board[y][1] == -1) + \
+                          (self.board[y + 1][1] == -1) + (self.board[y + 1][0] == -1)
+
+            if self.board[y][self.sizex - 1] == 0:
+                self.board[y][self.sizex - 1] = int(self.board[y - 1][self.sizex - 1] == -1) + (self.board[y - 1][self.sizex - 2] == -1) + \
+                                                (self.board[y][self.sizex - 2] == -1) + (self.board[y + 1][self.sizex - 2] == -1) + \
+                                                (self.board[y + 1][self.sizex - 1] == -1)
+
+
         self.board = np.transpose(self.board)
 
-        for x in range(1, self.sizey - 1):
-            if self.board[x][0] == 0:
-                self.board[x][0] = (self.board[x - 1][0] == -1) + (self.board[x - 1][1] == -1) + (self.board[x][1] == -1) + \
-                          (self.board[x + 1][1] == -1) + \
-                          (self.board[x + 1][0] == -1)
-            if self.board[x][self.sizex - 1] == 0:
-                self.board[x][self.sizex - 1] = (self.board[x - 1][self.sizex - 1] == -1) + (self.board[x - 1][self.sizex - 2] == -1) + \
-                                                (self.board[x][self.sizex - 2] == -1) + (self.board[x + 1][self.sizex - 2] == -1) + \
-                                                (self.board[x + 1][self.sizex - 1] == -1)
+    def uncoverField(self, x, y):
+        if self.covered[x][y] == True:
+            self.covered[x][y]=False
+            if self.board[x][y] == 0:
+                if x>0:
+                    self.uncoverField(x-1,y)
+                if y>0:
+                    self.uncoverField(x,y-1)
+                if x>0 and y>0:
+                    self.uncoverField(x-1,y-1)
+                if x<self.sizex-1:
+                    self.uncoverField(x+1,y)
+                if y<self.sizey-1:
+                    self.uncoverField(x,y+1)
+                if x<self.sizex-1 and y<self.sizey-1:
+                    self.uncoverField(x+1,y+1)
+                if x>0 and y<self.sizey-1:
+                    self.uncoverField(x-1,y+1)
+                if x<self.sizex-1 and y>0:
+                    self.uncoverField(x+1,y-1)
 
-        self.board = np.transpose(self.board)
+        toRet = [[-2 for y in range(self.sizey)] for x in range(self.sizex)]
+        for x in range(0, self.sizex):
+                for y in range(0, self.sizey):
+                    if self.covered[x][y]==False:
+                        toRet[x][y]=self.board[x][y]
+
+        #transpose, żeby w konsoli wyświetlało rząd pod rzędem jako tablicę z numpy. Można potem usunąć
+        toRet=np.transpose(toRet)
+        toRet=np.transpose(toRet)
+        return toRet
 
 
-
-"""
 saper = SaperController()
-saper.createBoard(10, 10, 10)
+saper.createBoard(5, 10, 10)
 print(saper.board)
-"""
+print(saper.uncoverField(1,1))
+print(saper.uncoverField(2,1))
