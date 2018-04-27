@@ -129,6 +129,6 @@ class SaperController():
 
 
 saper = SaperController()
-saper.createBoard(5, 10, 10)
+saper.createBoard(10, 10, 10)
 print(saper.board)
 print(saper.GetBoard())
