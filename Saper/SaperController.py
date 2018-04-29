@@ -8,6 +8,7 @@ class SaperController():
         self.sizex = 0
         self.sizey = 0
         self.board = []
+        self.state=0
 
     def getSizeX(self):
         return self.sizex
@@ -23,6 +24,7 @@ class SaperController():
         success = 0
         self.sizex = sizex
         self.sizey = sizey
+        self.bombs = bombs
         self.board = [[0 for y in range(sizey)] for x in range(sizex)]
         self.covered = [[True for y in range(sizey)] for x in range(sizex)]
         self.outBoard = [[" " for y in range(sizey)] for x in range(sizex)]
@@ -111,7 +113,11 @@ class SaperController():
         for x in range(0, self.sizex):
                 for y in range(0, self.sizey):
                     if self.covered[x][y]==False:
+                        if self.board[x][y] == -1:
+                            self.state=-1
                         self.outBoard[x][y]=self.board[x][y]
+        if self.state == 0 and np.sum(self.covered) == self.bombs:
+            self.state = 1
 
         #transpose, żeby w konsoli wyświetlało rząd pod rzędem jako tablicę z numpy. Można potem usunąć
         self.outBoard=np.transpose(self.outBoard)
@@ -126,9 +132,13 @@ class SaperController():
     def GetBoard(self):
         return self.outBoard
 
+    def GetValueAt(self, x,y):
+        return self.board[x][y]
 
+    def GetState(self):
+        return self.state #-1 przegrana, 0 gra, 1 wygrana
 
 saper = SaperController()
-saper.createBoard(5, 10, 10)
+saper.createBoard(5, 7, 7)
 print(saper.board)
 print(saper.GetBoard())
