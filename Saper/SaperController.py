@@ -89,26 +89,26 @@ class SaperController():
 
         self.board = np.transpose(self.board)
 
-    def uncoverField(self, x, y):
+    def UncoverField(self, x, y):
         if self.covered[x][y] == True:
             self.covered[x][y]=False
             if self.board[x][y] == 0:
                 if x>0:
-                    self.uncoverField(x-1,y)
+                    self.UncoverField(x - 1, y)
                 if y>0:
-                    self.uncoverField(x,y-1)
+                    self.UncoverField(x, y - 1)
                 if x>0 and y>0:
-                    self.uncoverField(x-1,y-1)
+                    self.UncoverField(x - 1, y - 1)
                 if x<self.sizex-1:
-                    self.uncoverField(x+1,y)
+                    self.UncoverField(x + 1, y)
                 if y<self.sizey-1:
-                    self.uncoverField(x,y+1)
+                    self.UncoverField(x, y + 1)
                 if x<self.sizex-1 and y<self.sizey-1:
-                    self.uncoverField(x+1,y+1)
+                    self.UncoverField(x + 1, y + 1)
                 if x>0 and y<self.sizey-1:
-                    self.uncoverField(x-1,y+1)
+                    self.UncoverField(x - 1, y + 1)
                 if x<self.sizex-1 and y>0:
-                    self.uncoverField(x+1,y-1)
+                    self.UncoverField(x + 1, y - 1)
 
         for x in range(0, self.sizex):
                 for y in range(0, self.sizey):
@@ -138,7 +138,7 @@ class SaperController():
     def GetState(self):
         return self.state #-1 przegrana, 0 gra, 1 wygrana
 
-saper = SaperController()
+"""saper = SaperController()
 saper.createBoard(5, 7, 7)
 print(saper.board)
-print(saper.GetBoard())
+print(saper.GetBoard())"""
