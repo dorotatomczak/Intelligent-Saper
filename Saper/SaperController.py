@@ -22,12 +22,13 @@ class SaperController():
             print("Too many bombs for your board")
             return
         success = 0
+        self.state=0
         self.sizex = sizex
         self.sizey = sizey
         self.bombs = bombs
         self.board = [[0 for y in range(sizey)] for x in range(sizex)]
         self.covered = [[True for y in range(sizey)] for x in range(sizex)]
-        self.outBoard = [[" " for y in range(sizey)] for x in range(sizex)]
+        self.outBoard = [[10 for y in range(sizey)] for x in range(sizex)]
 
         while success < bombs:
             x = rand.randint(0, sizex - 1)
