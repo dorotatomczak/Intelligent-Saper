@@ -87,10 +87,10 @@ class Player:
         win=0
         lost=0
         for i in range(0, num_iters):
-            iteration=0
+            iteration=1
             bombs = rand.randint(4,10)
             width = rand.randint(4,10)
-            self.sc.createBoard(bombs, width, width*bombs)
+            self.sc.createBoard(bombs, width, width)
             self.sc.UncoverField(0,0)
             while self.sc.GetState() == 0:
 
@@ -103,10 +103,7 @@ class Player:
                 self.W2-= learning_rate * grads['W2']
                 self.b2-= learning_rate * grads['b2']
 
-                if verbose and iteration % 10 == 0:
-                    tryGames = 10
-                    acc = self.checkAccuracy(tryGames)
-                    print('iteration %d (%d. game): loss %f, accuracy in %d games: %f' % (iteration, i, loss, tryGames, acc))
+
 
 
                 iteration+=1
@@ -123,6 +120,12 @@ class Player:
                 win +=1
             if self.sc.GetState() == -1:
                 lost +=1
+            if verbose and i % 10 == 0:
+                tryGames = 10
+                acc = 0#self.checkAccuracy(tryGames)
+                print(
+                        'iteration %d (%d. game): loss %f, accuracy in %d games: %f' % (
+                        iteration, i, loss, tryGames, acc))
             #if verbose:
             #    print('state: %d' % (self.sc.GetState()))
 
@@ -148,15 +151,10 @@ class Player:
         smallArSize = self.oneBoardSize
         size_y = self.sc.GetSizeY()
         size_x = self.sc.GetSizeX()
-        print("shape 0 " + str(pred_bombs.shape[0]))
-        print("shape 1 " + str(pred_bombs.shape[1]))
-        for i in range(0, self.X.shape[1]):
-            for k in range(0, self.oneBoardSize**2):
-                a = int(i/(size_y - smallArSize))+int(k/smallArSize)
-                b = i%(size_y - smallArSize)+k%smallArSize
-                print("i " + str(a))
-                print("k " + str(b))
-                print()
+        for i in range(0, probs.shape[0]):
+            for k in range(0, probs.shape[1]):
+                a = int((int(i/(size_y - smallArSize + 1))+int(k/smallArSize))/size_y)
+                b = (i%(size_y - smallArSize+1)+k%smallArSize)%size_y
                 pred_bombs[a][b] = max(pred_bombs[a][b], probs[i][k])
 
 
@@ -176,23 +174,16 @@ class Player:
                 pred_bombs = self.predict(self.X)
                 x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
                 y=np.argmin(pred_bombs)%self.sc.GetSizeY()
-                while (self.sc.GetBoard())[x][y] != 10 or pred_bombs[x][y] == 0:
-                    pred_bombs[x][y] = 1
-                    print(pred_bombs)
+                while (self.sc.GetBoard())[x][y] != 10:
+                    pred_bombs[x][y]=1
                     x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
                     y=np.argmin(pred_bombs)%self.sc.GetSizeY()
-                    print("")
-                    print(x)
-                    print(y)
-
 
                 self.sc.UncoverField(x, y)
 
-
             if self.sc.GetState() == 1:
                 win +=1
-            print("koniec111")
-        print("koniec")
+
         return win/tries
 
 saper = SaperController()
