@@ -10,9 +10,9 @@ class Player:
         self.oneBoardSize = 4
         self.hiddenLayerSize = 50
 
-        self.W1 = np.random.randn(self.oneBoardSize**2, self.hiddenLayerSize) * 0.001
+        self.W1 = np.random.randn(self.oneBoardSize**2, self.hiddenLayerSize) * 0.1
         self.b1 = np.zeros(self.hiddenLayerSize)
-        self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.001
+        self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.1
         self.b2 = np.zeros(self.oneBoardSize**2)
 
 
@@ -42,7 +42,7 @@ class Player:
                     B = np.append(B, smallArray, axis=0)
         return B
 
-    def loss(self, X, y, reg=0.0):
+    def loss(self, X, y=None, reg=0.0):
         W1, b1 = self.W1, self.b1
         W2, b2 = self.W2, self.b2
         N, D = X.shape
@@ -56,10 +56,10 @@ class Player:
         exp_scores = np.exp(scores)
 
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
-        logprobs = -np.log(probs[np.transpose([np.arange(num_train)]), y])
-        loss = np.sum(logprobs) / num_train
-        reg = reg * np.sum(W1 * W1) + reg * np.sum(W2 * W2)
-        loss += reg
+        corect_logprobs = -np.log(probs[np.transpose([np.arange(num_train)]), y])
+        data_loss = np.sum(corect_logprobs) / num_train
+        reg_loss = reg * np.sum(W1 * W1) + reg * np.sum(W2 * W2)
+        loss = data_loss + reg_loss
 
         grads = {}
         dX2 = probs
@@ -79,39 +79,41 @@ class Player:
         return loss, grads
 
     def train(self,
-              learning_rate=1e-3,
-              reg=5e-6, num_iters=100,verbose=False):
+              learning_rate=1e-3, learning_rate_decay=0.95,
+              reg=5e-6, num_iters=100, verbose=False):
+        # num_train = self.X.shape[0]
+        # iterations_per_epoch = max(num_train / batch_size, 1)
 
         loss_history = []
         train_acc_history = []
-        win=0
-        lost=0
+        win = 0
+        lost = 0
         for i in range(0, num_iters):
-            iteration=1
-            bombs = rand.randint(4,10)
-            width = rand.randint(4,10)
-            self.sc.createBoard(bombs, width, width)
-            self.sc.UncoverField(0,0)
+            iteration = 0
+            bombs = rand.randint(4, 6)
+            width = rand.randint(4, 6)
+            self.sc.createBoard(bombs, width, width * bombs)
+            self.sc.UncoverField(0, 0)
             while self.sc.GetState() == 0:
 
                 self.PrepareData()
                 loss, grads = self.loss(self.X, y=self.y, reg=reg)
                 loss_history.append(loss)
 
-                self.W1-= learning_rate * grads['W1']
-                self.b1-= learning_rate * grads['b1']
-                self.W2-= learning_rate * grads['W2']
-                self.b2-= learning_rate * grads['b2']
+                self.W1 -= learning_rate * grads['W1']
+                self.b1 -= learning_rate * grads['b1']
+                self.W2 -= learning_rate * grads['W2']
+                self.b2 -= learning_rate * grads['b2']
 
+                if verbose and i % 10 == 0:
+                    print('iteration %d (%d. game): loss %f' % (iteration, i, loss))
 
-
-
-                iteration+=1
-                x=rand.randint(0, self.sc.GetSizeX()-1)
-                y=rand.randint(0, self.sc.GetSizeY()-1)
+                iteration += 1
+                x = rand.randint(0, self.sc.GetSizeX() - 1)
+                y = rand.randint(0, self.sc.GetSizeY() - 1)
                 while (self.sc.GetBoard())[x][y] != 10:
-                    x=rand.randint(0, self.sc.GetSizeX()-1)
-                    y=rand.randint(0, self.sc.GetSizeY()-1)
+                    x = rand.randint(0, self.sc.GetSizeX() - 1)
+                    y = rand.randint(0, self.sc.GetSizeY() - 1)
 
                 self.sc.UncoverField(x, y)
 
@@ -120,12 +122,12 @@ class Player:
                 win +=1
             if self.sc.GetState() == -1:
                 lost +=1
-            if verbose and i % 10 == 0:
+            if verbose and i % 10 == 0 and i>100:
                 tryGames = 10
-                acc = 0#self.checkAccuracy(tryGames)
+                acc = self.checkAccuracy(tryGames)
                 print(
-                        'iteration %d (%d. game): loss %f, accuracy in %d games: %f' % (
-                        iteration, i, loss, tryGames, acc))
+                        'Moves %d (%d. game), accuracy in %d games: %f' % (
+                        iteration, i, tryGames, acc))
             #if verbose:
             #    print('state: %d' % (self.sc.GetState()))
 
