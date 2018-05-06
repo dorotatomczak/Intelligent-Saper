@@ -42,7 +42,7 @@ class Player:
                     B = np.append(B, smallArray, axis=0)
         return B
 
-    def loss(self, X, y=None, reg=0.0):
+    def loss(self, X, y, reg=0.0):
         W1, b1 = self.W1, self.b1
         W2, b2 = self.W2, self.b2
         N, D = X.shape
@@ -56,10 +56,10 @@ class Player:
         exp_scores = np.exp(scores)
 
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
-        corect_logprobs = -np.log(probs[np.transpose([np.arange(num_train)]), y])
-        data_loss = np.sum(corect_logprobs) / num_train
-        reg_loss = reg * np.sum(W1 * W1) + reg * np.sum(W2 * W2)
-        loss = data_loss + reg_loss
+        logprobs = -np.log(probs[np.transpose([np.arange(num_train)]), y])
+        loss = np.sum(logprobs) / num_train
+        reg = reg * np.sum(W1 * W1) + reg * np.sum(W2 * W2)
+        loss += reg
 
         grads = {}
         dX2 = probs
@@ -79,10 +79,8 @@ class Player:
         return loss, grads
 
     def train(self,
-              learning_rate=1e-3, learning_rate_decay=0.95,
+              learning_rate=1e-3,
               reg=5e-6, num_iters=100,verbose=False):
-        #num_train = self.X.shape[0]
-        #iterations_per_epoch = max(num_train / batch_size, 1)
 
         loss_history = []
         train_acc_history = []
@@ -106,18 +104,10 @@ class Player:
                 self.b2-= learning_rate * grads['b2']
 
                 if verbose and iteration % 10 == 0:
-                    print('iteration %d (%d. game): loss %f' % (iteration, i, loss))
+                    tryGames = 10
+                    acc = self.checkAccuracy(tryGames)
+                    print('iteration %d (%d. game): loss %f, accuracy in %d games: %f' % (iteration, i, loss, tryGames, acc))
 
-                # Every epoch, check train and val accuracy and decay learning rate.
-                #if iteration % 20 == 0:
-                    # Check accuracy
-                    #train_acc = (self.predict(self.X) == self.y).mean()
-                    #val_acc = (self.predict(X_val) == y_val).mean()
-                    #train_acc_history.append(train_acc)
-                    #val_acc_history.append(val_acc)
-
-                    # Decay learning rate
-                    #learning_rate *= learning_rate_decay
 
                 iteration+=1
                 x=rand.randint(0, self.sc.GetSizeX()-1)
@@ -144,7 +134,6 @@ class Player:
 
     #niezrobiona do końca metoda
     def predict(self, X):
-        y_pred = None
         num_train = X.shape[0]
         W1, b1 = self.W1, self.b1
         W2, b2 = self.W2, self.b2
@@ -152,21 +141,59 @@ class Player:
         scores = scores_t.dot(W2) + b2
         scores = scores[np.arange(num_train)] - np.max(scores[np.arange(num_train)])
         exp_scores = np.exp(scores)
-
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
-        #y_pred = np.argmax(scores, axis=1)
+
         pred_bombs = [[0 for y in range(self.sc.GetSizeY())] for x in range(self.sc.GetSizeX())]
+        pred_bombs = np.array(pred_bombs)
         smallArSize = self.oneBoardSize
         size_y = self.sc.GetSizeY()
         size_x = self.sc.GetSizeX()
+        print("shape 0 " + str(pred_bombs.shape[0]))
+        print("shape 1 " + str(pred_bombs.shape[1]))
         for i in range(0, self.X.shape[1]):
             for k in range(0, self.oneBoardSize**2):
                 a = int(i/(size_y - smallArSize))+int(k/smallArSize)
                 b = i%(size_y - smallArSize)+k%smallArSize
-                pred_bombs[a][b] = max(pred_bombs[a][b], scores[i][k])
+                print("i " + str(a))
+                print("k " + str(b))
+                print()
+                pred_bombs[a][b] = max(pred_bombs[a][b], probs[i][k])
 
 
         return pred_bombs
+
+    def checkAccuracy(self, tries):
+        win = 0
+        for i in range(tries):
+            bombs = rand.randint(4, 6)
+            width = rand.randint(4, 6)
+            self.sc.createBoard(bombs, width, width)
+            self.sc.UncoverField(0, 0)
+
+            while self.sc.GetState() == 0:
+
+                self.PrepareData()
+                pred_bombs = self.predict(self.X)
+                x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                y=np.argmin(pred_bombs)%self.sc.GetSizeY()
+                while (self.sc.GetBoard())[x][y] != 10 or pred_bombs[x][y] == 0:
+                    pred_bombs[x][y] = 1
+                    print(pred_bombs)
+                    x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                    y=np.argmin(pred_bombs)%self.sc.GetSizeY()
+                    print("")
+                    print(x)
+                    print(y)
+
+
+                self.sc.UncoverField(x, y)
+
+
+            if self.sc.GetState() == 1:
+                win +=1
+            print("koniec111")
+        print("koniec")
+        return win/tries
 
 saper = SaperController()
 saper.createBoard(5, 7, 7)
