@@ -7,12 +7,12 @@ import random as rand
 class Player:
     def __init__(self, saperController):
         self.sc = saperController
-        self.oneBoardSize = 4
-        self.hiddenLayerSize = 50
+        self.oneBoardSize = 3
+        self.hiddenLayerSize = 20
 
-        self.W1 = np.random.randn(self.oneBoardSize**2, self.hiddenLayerSize) * 0.1
+        self.W1 = np.random.randn(self.oneBoardSize**2, self.hiddenLayerSize) * 0.001
         self.b1 = np.zeros(self.hiddenLayerSize)
-        self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.1
+        self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.001
         self.b2 = np.zeros(self.oneBoardSize**2)
 
 
@@ -79,7 +79,7 @@ class Player:
         return loss, grads
 
     def train(self,
-              learning_rate=1e-3, learning_rate_decay=0.95,
+              learning_rate=1e-3,
               reg=5e-6, num_iters=100, verbose=False):
         # num_train = self.X.shape[0]
         # iterations_per_epoch = max(num_train / batch_size, 1)
@@ -185,6 +185,7 @@ class Player:
 
             if self.sc.GetState() == 1:
                 win +=1
+                print("win")
 
         return win/tries
 
