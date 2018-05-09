@@ -10,13 +10,6 @@ class SaperController():
         self.board = []
         self.state=0
 
-    def getSizeX(self):
-        return self.sizex
-
-    def getSizeY(self):
-        return self.sizey
-
-
     def createBoard(self, bombs, sizex, sizey):
         if bombs>sizex*sizey:
             print("Too many bombs for your board")

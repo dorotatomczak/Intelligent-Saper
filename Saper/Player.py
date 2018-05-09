@@ -1,7 +1,5 @@
 import numpy as np
 from Saper.SaperController import SaperController
-import matplotlib.pyplot as plt
-from past.builtins import xrange
 import random as rand
 
 class Player:
