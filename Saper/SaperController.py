@@ -15,7 +15,7 @@ class SaperController():
             print("Too many bombs for your board")
             return
         success = 0
-        self.state=0
+        self.state = 0
         self.sizex = sizex
         self.sizey = sizey
         self.bombs = bombs

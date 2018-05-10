@@ -1,10 +1,10 @@
 import numpy as np
-from Saper.SaperController import SaperController
 import random as rand
 
 class Player:
-    def __init__(self, saperController):
-        self.sc = saperController
+    def __init__(self, app):
+        self.sc = app.saper
+        self.gui = app.gui
         self.oneBoardSize = 3
         self.hiddenLayerSize = 20
 
@@ -89,9 +89,12 @@ class Player:
         for i in range(0, num_iters):
             iteration = 0
             bombs = rand.randint(4, 6)
-            width = rand.randint(4, 6)
-            self.sc.createBoard(bombs, width, width * bombs)
+            width = rand.randint(4, 10)
+            height = rand.randint(4, 10)
+            self.sc.createBoard(bombs, width, height)
             self.sc.UncoverField(0, 0)
+            self.gui.loadNewBoard()
+            self.gui.refresh()
             while self.sc.GetState() == 0:
 
                 self.PrepareData()
@@ -114,6 +117,7 @@ class Player:
                     y = rand.randint(0, self.sc.GetSizeY() - 1)
 
                 self.sc.UncoverField(x, y)
+                self.gui.refresh()
 
 
             if self.sc.GetState() == 1:
@@ -187,7 +191,7 @@ class Player:
 
         return win/tries
 
-saper = SaperController()
+"""saper = SaperController()
 saper.createBoard(5, 7, 7)
 player = Player(saper)
-player.train(num_iters=1000,verbose=True)
+player.train(num_iters=1000,verbose=True)"""
