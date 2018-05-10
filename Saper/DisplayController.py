@@ -4,7 +4,6 @@ from Saper.SaperController import SaperController
 from Saper.Player import Player
 import time
 
-
 class GUI:
     def __init__(self, app):
         self.master = app.master
@@ -66,6 +65,7 @@ class GUI:
                 if app.saper.covered[row][col] == False:
                     x1 = (row * self.square_size)
                     y1 = (col * self.square_size)
+
                     if self.app.saper.board[row][col] == -1:
                         image = self.red_bomb
                     elif self.app.saper.board[row][col] == 1:
@@ -77,10 +77,8 @@ class GUI:
                     else:
                         image = self.blank
                     self.canvas.create_image(x1, y1, image=image, anchor=tk.NW)
-
         self.master.update()
         time.sleep(1)
-
 
     def fill_canvas(self):
         for row in range(self.app.saper.GetSizeX()):
