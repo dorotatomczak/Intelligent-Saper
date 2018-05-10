@@ -8,24 +8,20 @@ class SaperController():
         self.sizex = 0
         self.sizey = 0
         self.board = []
-
-    def getSizeX(self):
-        return self.sizex
-
-    def getSizeY(self):
-        return self.sizey
-
+        self.state=0
 
     def createBoard(self, bombs, sizex, sizey):
         if bombs>sizex*sizey:
             print("Too many bombs for your board")
             return
         success = 0
+        self.state = 0
         self.sizex = sizex
         self.sizey = sizey
+        self.bombs = bombs
         self.board = [[0 for y in range(sizey)] for x in range(sizex)]
         self.covered = [[True for y in range(sizey)] for x in range(sizex)]
-        self.outBoard = [[" " for y in range(sizey)] for x in range(sizex)]
+        self.outBoard = [[10 for y in range(sizey)] for x in range(sizex)]
 
         while success < bombs:
             x = rand.randint(0, sizex - 1)
@@ -87,31 +83,35 @@ class SaperController():
 
         self.board = np.transpose(self.board)
 
-    def uncoverField(self, x, y):
+    def UncoverField(self, x, y):
         if self.covered[x][y] == True:
             self.covered[x][y]=False
             if self.board[x][y] == 0:
                 if x>0:
-                    self.uncoverField(x-1,y)
+                    self.UncoverField(x - 1, y)
                 if y>0:
-                    self.uncoverField(x,y-1)
+                    self.UncoverField(x, y - 1)
                 if x>0 and y>0:
-                    self.uncoverField(x-1,y-1)
+                    self.UncoverField(x - 1, y - 1)
                 if x<self.sizex-1:
-                    self.uncoverField(x+1,y)
+                    self.UncoverField(x + 1, y)
                 if y<self.sizey-1:
-                    self.uncoverField(x,y+1)
+                    self.UncoverField(x, y + 1)
                 if x<self.sizex-1 and y<self.sizey-1:
-                    self.uncoverField(x+1,y+1)
+                    self.UncoverField(x + 1, y + 1)
                 if x>0 and y<self.sizey-1:
-                    self.uncoverField(x-1,y+1)
+                    self.UncoverField(x - 1, y + 1)
                 if x<self.sizex-1 and y>0:
-                    self.uncoverField(x+1,y-1)
+                    self.UncoverField(x + 1, y - 1)
 
         for x in range(0, self.sizex):
                 for y in range(0, self.sizey):
                     if self.covered[x][y]==False:
+                        if self.board[x][y] == -1:
+                            self.state=-1
                         self.outBoard[x][y]=self.board[x][y]
+        if self.state == 0 and np.sum(self.covered) == self.bombs:
+            self.state = 1
 
         #transpose, żeby w konsoli wyświetlało rząd pod rzędem jako tablicę z numpy. Można potem usunąć
         self.outBoard=np.transpose(self.outBoard)
@@ -126,9 +126,9 @@ class SaperController():
     def GetBoard(self):
         return self.outBoard
 
+    def GetValueAt(self, x,y):
+        return self.board[x][y]
 
+    def GetState(self):
+        return self.state  # -1 przegrana, 0 gra, 1 wygrana
 
-saper = SaperController()
-saper.createBoard(10, 10, 10)
-print(saper.board)
-print(saper.GetBoard())
