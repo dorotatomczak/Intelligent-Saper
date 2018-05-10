@@ -28,8 +28,9 @@ class GUI:
         self.canvas = tk.Canvas(self.master, width=self.canvas_width, height=self.canvas_height, background="grey")
         self.canvas.pack(side="top", fill="both", anchor="c", expand=True)
 
-        self.current_column = None
-        self.current_row = None
+        self.text = tk.Text(self.master, width=1, height=80)
+        self.text.insert(tk.INSERT, "")
+        self.text.pack(fill=tk.BOTH, expand=1)
 
         self.resizeWindow()
 
@@ -48,7 +49,7 @@ class GUI:
 
     def resizeWindow(self):
         w = self.canvas_width
-        h = self.canvas_height
+        h = self.canvas_height + 80
         ws = self.master.winfo_screenwidth()
         hs = self.master.winfo_screenheight()
         x = (ws / 2) - (w / 2)
@@ -77,8 +78,13 @@ class GUI:
                     else:
                         image = self.blank
                     self.canvas.create_image(x1, y1, image=image, anchor=tk.NW)
+
         self.master.update()
         time.sleep(1)
+
+    def update_info(self, newInfo):
+        self.text.delete("1.0", tk.END)
+        self.text.insert(tk.END, newInfo)
 
     def fill_canvas(self):
         for row in range(self.app.saper.GetSizeX()):

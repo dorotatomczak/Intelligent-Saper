@@ -88,11 +88,13 @@ class Player:
         lost = 0
         for i in range(0, num_iters):
             iteration = 0
-            bombs = rand.randint(4, 6)
-            width = rand.randint(4, 10)
-            height = rand.randint(4, 10)
+            bombs = rand.randint(5, 10)
+            width = rand.randint(10, 15)
+            height = rand.randint(10, 15)
             self.sc.createBoard(bombs, width, height)
             self.sc.UncoverField(0, 0)
+            self.gui.update_info(
+                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(win) + "\nLost count:" + str(lost))
             self.gui.loadNewBoard()
             self.gui.refresh()
             while self.sc.GetState() == 0:
@@ -117,8 +119,6 @@ class Player:
                     y = rand.randint(0, self.sc.GetSizeY() - 1)
 
                 self.sc.UncoverField(x, y)
-                self.gui.refresh()
-
 
             if self.sc.GetState() == 1:
                 win +=1
@@ -132,6 +132,10 @@ class Player:
                         iteration, i, tryGames, acc))
             #if verbose:
             #    print('state: %d' % (self.sc.GetState()))
+
+            self.gui.update_info(
+                    "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(win) + "\nLost count:" + str(lost))
+            self.gui.refresh()
 
         return {
             'loss_history': loss_history,
