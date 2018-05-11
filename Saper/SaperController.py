@@ -15,7 +15,7 @@ class SaperController():
             print("Too many bombs for your board")
             return
         success = 0
-        self.state=0
+        self.state = 0
         self.sizex = sizex
         self.sizey = sizey
         self.bombs = bombs
@@ -130,9 +130,5 @@ class SaperController():
         return self.board[x][y]
 
     def GetState(self):
-        return self.state #-1 przegrana, 0 gra, 1 wygrana
+        return self.state  # -1 przegrana, 0 gra, 1 wygrana
 
-"""saper = SaperController()
-saper.createBoard(5, 7, 7)
-print(saper.board)
-print(saper.GetBoard())"""
