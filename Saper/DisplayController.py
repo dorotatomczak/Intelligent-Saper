@@ -113,7 +113,7 @@ class App:
 
 if __name__ == '__main__':
     root = Tk()
-    root.minsize(200, 200)
+    root.minsize(200, 250)
     root.resizable(width=False, height=False)
     app = App(root)
     root.mainloop()

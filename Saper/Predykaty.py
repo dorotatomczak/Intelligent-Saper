@@ -9,8 +9,8 @@ class Predykaty:
     def __init__(self, app):
         self.sc = app.saper
         self.gui = app.gui
-        self.sizey = self.sc.GetSizeY()
-        self.sizex = self.sc.GetSizeX()
+        self.sizex = self.sc.GetSizeY() # changed because of making a mistake in axis
+        self.sizey = self.sc.GetSizeX()
         # self.board = [[blankid for y in range(self.sizey)] for x in range(self.sizex)]
         #  10 nieznane pole
         #  -1 przewidywana bomba
@@ -111,8 +111,8 @@ class Predykaty:
             sys.stdout.write("\n")
 
     def start(self):  # return 2 if looped, 1 if won, -1 if lost
-        y = rand.randint(0, self.sizey - 1)
-        x = rand.randint(0, self.sizex - 1)
+        y = rand.randint(0, self.sizey - 2)
+        x = rand.randint(0, self.sizex - 2)
         self.sc.UncoverField(y, x)  # pierwsze odkrycie losowego pola
         if self.sc.GetState() == -1:  # powiadom main o przegranej aby mogl zliczyc
             return 3
@@ -181,7 +181,6 @@ class Predykaty:
             max_width = settings['maxWidth']
             min_bombs = settings['minBombs']
             max_bombs = settings['maxBombs']
-
             won = 0
             lost = 0
             looped = 0
@@ -192,6 +191,8 @@ class Predykaty:
             width = rand.randint(min_width, max_width)
             height = rand.randint(min_height, max_height)
             self.sc.createBoard(bombs, width, height)
+            self.sizey = self.sc.GetSizeY() # when initialize predykaty board not created yet
+            self.sizex = self.sc.GetSizeX()
             self.gui.update_info(
                 "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
                 + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
