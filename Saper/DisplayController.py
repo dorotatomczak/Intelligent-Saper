@@ -47,7 +47,7 @@ class GUI:
         self.resizeWindow()
 
         self.master.update()
-        time.sleep(1)
+        # time.sleep(1)
 
     def resizeWindow(self):
         w = self.canvas_width
@@ -67,6 +67,7 @@ class GUI:
                 self.app.player.train(settings=d.result)
 
     def refresh(self):
+        self.fill_canvas()
         for row in range(self.app.saper.GetSizeX()):
             for col in range(self.app.saper.GetSizeY()):
 
@@ -85,6 +86,12 @@ class GUI:
                     else:
                         image = self.blank
                     self.canvas.create_image(x1, y1, image=image, anchor=NW)
+                elif self.app.saper.outBoard[row][col] == -1:
+                    x1 = (row * self.square_size)
+                    y1 = (col * self.square_size)
+                    image = self.bomb
+                    self.canvas.create_image(x1, y1, image=image, anchor=NW)
+
 
         self.master.update()
         time.sleep(1)
@@ -113,7 +120,7 @@ class App:
 
 if __name__ == '__main__':
     root = Tk()
-    root.minsize(200, 200)
-    root.resizable(width=False, height=False)
+    root.minsize(200, 250)
+    root.resizable(width=True, height=True)
     app = App(root)
     root.mainloop()
