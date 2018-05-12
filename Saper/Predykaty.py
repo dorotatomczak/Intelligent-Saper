@@ -126,8 +126,11 @@ class Predykaty:
                     if self.sc.outBoard[i][j] == blankid and self.sureBomb(i, j):
                         self.sc.outBoard[i][j] = bombid
                         error = False
+                        self.gui.refresh()
                     elif self.sc.outBoard[i][j] != bombid and self.allBombsFound(i, j):
                         error = self.uncoverSurroundings(i, j)
+                        if error is False:
+                            self.gui.refresh()
             if error:
                 # return 2
                 w = 0
