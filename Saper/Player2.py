@@ -1,12 +1,10 @@
 import random as rand
-from Saper.SaperController import SaperController
 import sys
-import time
 
 blankid = 10
 bombid = -1
 
-class Predykaty:
+class Player2:
     def __init__(self, app):
         self.sc = app.saper
         self.gui = app.gui
@@ -33,7 +31,6 @@ class Predykaty:
             return -1
         else:
             return 0
-
 
     def bombNeighbour(self, y, x):
         bombs = 0
@@ -104,13 +101,6 @@ class Predykaty:
                         error = False
         return error
 
-    def wyswietltablice(self):
-        for i in range(0, self.sizey):
-            for j in range(0, self.sizex):
-                sys.stdout.write(str(self.sc.outBoard[i][j]))
-                sys.stdout.write(" ")
-            sys.stdout.write("\n")
-
     def start(self):  # return 2 if looped, 1 if won, -1 if lost
         y = rand.randint(0, self.sizey - 2)
         x = rand.randint(0, self.sizex - 2)
@@ -155,19 +145,6 @@ class Predykaty:
             if self.sc.GetState() == 1:  # powiadom main o wygranej aby mogl zliczyc
                 return 1
 
-    def test(self):
-        self.sc.outBoard = [[0, 1, 1, 1, 0],
-                     [0, 2, -1, 2, 0],
-                     [10, 2, -1, 2, 0],
-                     [10, 1, 1, 1, 0],
-                     [0, 0, 0, 0, 0]]
-        self.sizex = 5
-        self.sizey = 5
-        print(self.allBombsFound(2, 1))
-        for i in range(0, self.sizey):
-            for j in range(0, self.sizex):
-                print(self.sc.outBoard[i][j])
-
     def play(self, settings=None):
         if settings is None:
             num_iters = 100
@@ -200,7 +177,7 @@ class Predykaty:
             self.gui.update_info(
                 "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
                 + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
-            self.gui.refresh()
+            self.gui.refresh()  # added refresh inside start function
             x = self.start()
             if x == 1:
                 won += 1

@@ -2,7 +2,7 @@ from tkinter import *
 from Saper.Dialog import *
 from Saper.SaperController import SaperController
 from Saper.Player import Player
-from Saper.Predykaty import Predykaty
+from Saper.Player2 import Player2
 import time
 
 
@@ -92,7 +92,6 @@ class GUI:
                     image = self.bomb
                     self.canvas.create_image(x1, y1, image=image, anchor=NW)
 
-
         self.master.update()
         time.sleep(1)
 
@@ -115,7 +114,7 @@ class App:
         self.master = master
         self.gui = GUI(self)
         self.player = Player(self)
-        self.predicates = Predykaty(self)
+        self.player2 = Player2(self)
 
 
 if __name__ == '__main__':

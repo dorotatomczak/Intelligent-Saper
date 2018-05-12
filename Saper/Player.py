@@ -138,29 +138,30 @@ class Player:
                 self.sc.UncoverField(x, y)
 
             if self.sc.GetState() == 1:
-                win +=1
+                win += 1
             if self.sc.GetState() == -1:
-                lost +=1
-            if verbose and i % 10 == 0 and i>100:
+                lost += 1
+            if verbose and i % 10 == 0 and i > 100:
                 tryGames = 10
                 acc = self.checkAccuracy(tryGames)
                 print(
                         'Moves %d (%d. game), accuracy in %d games: %f' % (
                         iteration, i, tryGames, acc))
-            #if verbose:
+            # if verbose:
             #    print('state: %d' % (self.sc.GetState()))
 
             self.gui.update_info(
-                    "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(win) + "\nLost count:" + str(lost))
+                    "Method: Neural Network\nGame:" + str(i+1) +
+                    "\nWin count:" + str(win) + "\nLost count:" + str(lost))
             self.gui.refresh()
 
         return {
             'loss_history': loss_history,
             'train_acc_history': train_acc_history,
-            #'val_acc_history': val_acc_history,
+            # 'val_acc_history': val_acc_history,
         }
 
-    #niezrobiona do końca metoda
+    # niezrobiona do końca metoda
     def predict(self, X):
         num_train = X.shape[0]
         W1, b1 = self.W1, self.b1
@@ -179,7 +180,7 @@ class Player:
         for i in range(0, probs.shape[0]):
             for k in range(0, probs.shape[1]):
                 a = int((int(i/(size_y - smallArSize + 1))+int(k/smallArSize))/size_y)
-                b = (i%(size_y - smallArSize+1)+k%smallArSize)%size_y
+                b = (i % (size_y - smallArSize+1)+k % smallArSize) % size_y
                 pred_bombs[a][b] = max(pred_bombs[a][b], probs[i][k])
 
 
@@ -197,17 +198,17 @@ class Player:
 
                 self.PrepareData()
                 pred_bombs = self.predict(self.X)
-                x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
-                y=np.argmin(pred_bombs)%self.sc.GetSizeY()
+                x = int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                y = np.argmin(pred_bombs)%self.sc.GetSizeY()
                 while (self.sc.GetBoard())[x][y] != 10:
                     pred_bombs[x][y]=1
-                    x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
-                    y=np.argmin(pred_bombs)%self.sc.GetSizeY()
+                    x = int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                    y = np.argmin(pred_bombs)%self.sc.GetSizeY()
 
                 self.sc.UncoverField(x, y)
 
             if self.sc.GetState() == 1:
-                win +=1
+                win += 1
                 print("win")
 
         return win/tries

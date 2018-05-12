@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49901f11-8ea8-4f13-beb2-c5dab1ce8707" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Saper/Predykaty.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/Predykaty.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Saper/DisplayController.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/DisplayController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Saper/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Saper/Predykaty.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/Player2.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Predykaty.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Saper/Predykaty.py">
+      <file leaf-file-name="Player2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Saper/Player2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="131" column="42" selection-start-line="131" selection-start-column="42" selection-end-line="131" selection-end-column="42" />
+            <state relative-caret-position="170">
+              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -38,8 +41,8 @@
       <file leaf-file-name="DisplayController.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Saper/DisplayController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-153">
-              <caret line="81" column="61" lean-forward="true" selection-start-line="81" selection-start-column="61" selection-end-line="81" selection-end-column="61" />
+            <state relative-caret-position="46">
+              <caret line="114" column="28" lean-forward="true" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -47,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Saper/Player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2006">
-              <caret line="217" column="44" selection-start-line="217" selection-start-column="44" selection-end-line="217" selection-end-column="44" />
+            <state relative-caret-position="328">
+              <caret line="218" column="44" lean-forward="true" selection-start-line="218" selection-start-column="44" selection-end-line="218" selection-end-column="44" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -65,8 +68,9 @@
     <findStrings>
       <find>self.board</find>
       <find>self.sizey</find>
-      <find>self.sizex</find>
       <find>fill</find>
+      <find>pla</find>
+      <find>self.sizex</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -75,8 +79,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Saper/DisplayController.py" />
         <option value="$PROJECT_DIR$/Saper/Predykaty.py" />
+        <option value="$PROJECT_DIR$/Saper/DisplayController.py" />
+        <option value="$PROJECT_DIR$/Saper/Player2.py" />
+        <option value="$PROJECT_DIR$/Saper/Player.py" />
       </list>
     </option>
   </component>
@@ -153,7 +159,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Saper/Predykaty.py" />
+      <option name="SCRIPT_NAME" value="E:\semestr4\SI\projekt\Intelligent-Saper\Saper\Player2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -277,10 +283,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Saper/SaperController.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-556">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Saper/DisplayController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="81" column="61" lean-forward="true" selection-start-line="81" selection-start-column="61" selection-end-line="81" selection-end-column="61" />
+        <state relative-caret-position="46">
+          <caret line="114" column="28" lean-forward="true" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Saper/Player2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -289,27 +312,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Saper/Player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="217" column="44" selection-start-line="217" selection-start-column="44" selection-end-line="217" selection-end-column="44" />
+        <state relative-caret-position="328">
+          <caret line="218" column="44" lean-forward="true" selection-start-line="218" selection-start-column="44" selection-end-line="218" selection-end-column="44" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Saper/SaperController.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-556">
-          <caret line="86" selection-start-line="86" selection-end-line="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Saper/Predykaty.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="131" column="42" selection-start-line="131" selection-start-column="42" selection-end-line="131" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
