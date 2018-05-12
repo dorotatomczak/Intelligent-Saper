@@ -1,6 +1,7 @@
 import random as rand
 from Saper.SaperController import SaperController
 import sys
+import time
 
 blankid = 10
 bombid = -1
@@ -123,7 +124,7 @@ class Predykaty:
             for i in range(0, self.sizey):
                 for j in range(0, self.sizex):
                     if self.sc.outBoard[i][j] == blankid and self.sureBomb(i, j):
-                        self.sc.outBoard[i][j] = -1
+                        self.sc.outBoard[i][j] = bombid
                         error = False
                     elif self.sc.outBoard[i][j] != bombid and self.allBombsFound(i, j):
                         error = self.uncoverSurroundings(i, j)
@@ -167,12 +168,12 @@ class Predykaty:
     def play(self, settings=None):
         if settings is None:
             num_iters = 100
-            min_height = 5
+            min_height = 10
             max_height = 10
-            min_width = 5
+            min_width = 10
             max_width = 10
-            min_bombs = 1
-            max_bombs = 5
+            min_bombs = 7
+            max_bombs = 11
         else:
             num_iters = settings['Games']
             min_height = settings['minHeight']

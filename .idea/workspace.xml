@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49901f11-8ea8-4f13-beb2-c5dab1ce8707" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Saper/DisplayController.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/DisplayController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Saper/Predykaty.py" beforeDir="false" afterPath="$PROJECT_DIR$/Saper/Predykaty.py" afterDir="false" />
     </list>
@@ -18,8 +19,8 @@
       <file leaf-file-name="SaperController.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Saper/SaperController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="31" column="28" lean-forward="true" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+            <state relative-caret-position="-391">
+              <caret line="86" selection-start-line="86" selection-end-line="86" />
             </state>
           </provider>
         </entry>
@@ -27,8 +28,8 @@
       <file leaf-file-name="Predykaty.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Saper/Predykaty.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1785">
-              <caret line="72" column="66" lean-forward="true" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="67" />
+            <state relative-caret-position="374">
+              <caret line="175" column="26" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -39,8 +40,8 @@
       <file leaf-file-name="DisplayController.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Saper/DisplayController.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="115" column="24" selection-start-line="115" selection-start-column="24" selection-end-line="115" selection-end-column="24" />
+            <state relative-caret-position="162">
+              <caret line="74" column="49" lean-forward="true" selection-start-line="74" selection-start-column="49" selection-end-line="74" selection-end-column="49" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -51,7 +52,7 @@
       <file leaf-file-name="Player.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Saper/Player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3587">
+            <state relative-caret-position="3026">
               <caret line="217" column="44" selection-start-line="217" selection-start-column="44" selection-end-line="217" selection-end-column="44" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -66,6 +67,7 @@
     <findStrings>
       <find>self.board</find>
       <find>self.sizey</find>
+      <find>fill</find>
       <find>self.sizex</find>
     </findStrings>
   </component>
@@ -207,7 +209,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="6" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -273,14 +275,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Saper/SaperController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" column="28" lean-forward="true" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+        <state relative-caret-position="-391">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Saper/Player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3587">
+        <state relative-caret-position="3026">
           <caret line="217" column="44" selection-start-line="217" selection-start-column="44" selection-end-line="217" selection-end-column="44" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -290,8 +292,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Saper/Predykaty.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1785">
-          <caret line="72" column="66" lean-forward="true" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="67" />
+        <state relative-caret-position="374">
+          <caret line="175" column="26" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -300,8 +302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Saper/DisplayController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="115" column="24" selection-start-line="115" selection-start-column="24" selection-end-line="115" selection-end-column="24" />
+        <state relative-caret-position="162">
+          <caret line="74" column="49" lean-forward="true" selection-start-line="74" selection-start-column="49" selection-end-line="74" selection-end-column="49" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
