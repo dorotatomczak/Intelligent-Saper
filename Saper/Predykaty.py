@@ -10,15 +10,15 @@ class Predykaty:
         self.sc = saperController
         self.sizey = self.sc.GetSizeY()
         self.sizex = self.sc.GetSizeX()
-        self.board = [[blankid for y in range(self.sizey)] for x in range(self.sizex)]
+        # self.board = [[blankid for y in range(self.sizey)] for x in range(self.sizex)]
         #  10 nieznane pole
         #  -1 przewidywana bomba
 
     def rewriteBoard(self):
         for i in range(0, self.sizey):
             for j in range(0, self.sizex):
-                if self.board[i][j] != -1 and self.sc.covered[i][j] is False:
-                    self.board[i][j] = self.sc.GetBoard()[i][j]
+                if self.sc.outBoard[i][j] != -1 and self.sc.covered[i][j] is False:
+                    self.sc.outBoard[i][j] = self.sc.GetBoard()[i][j]
 
     def getpi(self, y):
         if y > 0:
@@ -42,7 +42,7 @@ class Predykaty:
         for i in range(pi, ki):
             for j in range(pj, kj):
                 if y + i < self.sizey and x + j < self.sizex:
-                    if self.board[i+y][j+x] == bombid:
+                    if self.sc.outBoard[i+y][j+x] == bombid:
                         bombs += 1
         return bombs
 
@@ -55,7 +55,7 @@ class Predykaty:
         for i in range(pi, ki):
             for j in range(pj, kj):
                 if y + i < self.sizey and x + j < self.sizex:
-                    if self.board[y+i][x+j] == blankid:
+                    if self.sc.outBoard[y+i][x+j] == blankid:
                         blanks += 1
         return blanks
 
@@ -68,7 +68,7 @@ class Predykaty:
             for i in range(pi, ki):
                 for j in range(pj, kj):
                     if y + i < self.sizey and x + j < self.sizex:
-                        if self.board[y+i][x+j] == k:
+                        if self.sc.outBoard[y+i][x+j] == k:
                             bombs = self.bombNeighbour(i+y, j+x)  # bombs ile ma, k ile potrzebuje
                             blanks = self.blankNeighbour(i+y, j+x)  # blanks ile miejsca na mobmy
                             if blanks+bombs == k:
@@ -84,9 +84,9 @@ class Predykaty:
         for i in range(pi, ki):  # jesli jest miejsce to to pojdzie od -1 do 1 nie ma jesli
             for j in range(pj, kj):
                 if y+i < self.sizey and x+j < self.sizex:
-                    if self.board[y+i][x+j] == bombid:
+                    if self.sc.outBoard[y+i][x+j] == bombid:
                         bombs += 1
-        return bombs == self.board[y][x]
+        return bombs == self.sc.outBoard[y][x]
 
     def uncoverSurroundings(self, y, x):
         pi = self.getpi(y)
@@ -97,16 +97,15 @@ class Predykaty:
         for i in range(pi, ki):
             for j in range(pj, kj):
                 if y + i < self.sizey and x + j < self.sizex:
-                    if self.board[i+y][j+x] != bombid and self.sc.covered[i+y][j+x]:
+                    if self.sc.outBoard[i+y][j+x] != bombid and self.sc.covered[i+y][j+x]:
                         self.sc.UncoverField(i+y, j+x)
-                        self.rewriteBoard()
                         error = False
         return error
 
     def wyswietltablice(self):
         for i in range(0, self.sizey):
             for j in range(0, self.sizex):
-                sys.stdout.write(str(self.board[i][j]))
+                sys.stdout.write(str(self.sc.outBoard[i][j]))
                 sys.stdout.write(" ")
             sys.stdout.write("\n")
 
@@ -114,7 +113,6 @@ class Predykaty:
         y = rand.randint(0, self.sizey - 1)
         x = rand.randint(0, self.sizex - 1)
         self.sc.UncoverField(y, x)  # pierwsze odkrycie losowego pola
-        self.rewriteBoard()
         if self.sc.GetState() == -1:  # powiadom main o przegranej aby mogl zliczyc
             return 3
         if self.sc.GetState() == 1:  # powiadom main o wygranej aby mogl zliczyc
@@ -123,10 +121,10 @@ class Predykaty:
             error = True
             for i in range(0, self.sizey):
                 for j in range(0, self.sizex):
-                    if self.board[i][j] == blankid and self.sureBomb(i, j):
-                        self.board[i][j] = -1
+                    if self.sc.outBoard[i][j] == blankid and self.sureBomb(i, j):
+                        self.sc.outBoard[i][j] = -1
                         error = False
-                    elif self.board[i][j] != bombid and self.allBombsFound(i, j):
+                    elif self.sc.outBoard[i][j] != bombid and self.allBombsFound(i, j):
                         error = self.uncoverSurroundings(i, j)
             if error:
                 # return 2
@@ -147,14 +145,13 @@ class Predykaty:
                                 w = j
                                 flag = False
                 self.sc.UncoverField(q, w)
-                self.rewriteBoard()
             if self.sc.GetState() == -1:  # powiadom main o przegranej aby mogl zliczyc
                 return -1
             if self.sc.GetState() == 1:  # powiadom main o wygranej aby mogl zliczyc
                 return 1
 
     def test(self):
-        self.board = [[0, 1, 1, 1, 0],
+        self.sc.outBoard = [[0, 1, 1, 1, 0],
                      [0, 2, -1, 2, 0],
                      [10, 2, -1, 2, 0],
                      [10, 1, 1, 1, 0],
@@ -164,7 +161,7 @@ class Predykaty:
         print(self.allBombsFound(2, 1))
         for i in range(0, self.sizey):
             for j in range(0, self.sizex):
-                print(self.board[i][j])
+                print(self.sc.outBoard[i][j])
 
 
 won = 0
@@ -172,9 +169,9 @@ lost = 0
 looped = 0
 firstmove = 0
 
-for index in range(0, 300):
+for index in range(0, 100):
     saper = SaperController()
-    saper.createBoard(8, 8, 8)
+    saper.createBoard(10, 15, 15)
     p = Predykaty(saper)
     x = p.start()
     if x == 1:
