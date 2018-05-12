@@ -4,7 +4,9 @@ import sys
 blankid = 10
 bombid = -1
 
+
 class Player2:
+
     def __init__(self, app):
         self.sc = app.saper
         self.gui = app.gui
@@ -69,7 +71,7 @@ class Player2:
                     if y + i < self.sizey and x + j < self.sizex:
                         if self.sc.outBoard[y+i][x+j] == k:
                             bombs = self.bombNeighbour(i+y, j+x)  # bombs ile ma, k ile potrzebuje
-                            blanks = self.blankNeighbour(i+y, j+x)  # blanks ile miejsca na mobmy
+                            blanks = self.blankNeighbour(i+y, j+x)  # blanks ile miejsca na bomby
                             if blanks+bombs == k:
                                 return True
         return False
@@ -83,8 +85,12 @@ class Player2:
         for i in range(pi, ki):  # jesli jest miejsce to to pojdzie od -1 do 1 nie ma jesli
             for j in range(pj, kj):
                 if y+i < self.sizey and x+j < self.sizex:
-                    if self.sc.outBoard[y+i][x+j] == bombid:
-                        bombs += 1
+                    try:
+                        if self.sc.outBoard[y+i][x+j] == bombid:
+                            bombs += 1
+                    except IndexError:
+                        print('oops')
+
         return bombs == self.sc.outBoard[y][x]
 
     def uncoverSurroundings(self, y, x):
@@ -105,6 +111,7 @@ class Player2:
         y = rand.randint(0, self.sizey - 2)
         x = rand.randint(0, self.sizex - 2)
         self.sc.UncoverField(y, x)  # pierwsze odkrycie losowego pola
+        self.gui.refresh()
         if self.sc.GetState() == -1:  # powiadom main o przegranej aby mogl zliczyc
             return 3
         if self.sc.GetState() == 1:  # powiadom main o wygranej aby mogl zliczyc
@@ -172,12 +179,12 @@ class Player2:
             width = rand.randint(min_width, max_width)
             height = rand.randint(min_height, max_height)
             self.sc.createBoard(bombs, width, height)
-            self.sizey = self.sc.GetSizeY() # when initialize predykaty board not created yet
-            self.sizex = self.sc.GetSizeX()
+            self.gui.loadNewBoard()
+            self.sizex = self.sc.GetSizeY()  # when initialize predykaty board not created yet
+            self.sizey = self.sc.GetSizeX()  # sizex is y, sizey is x
             self.gui.update_info(
-                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
+                "Method: Predicates\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
                 + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
-            self.gui.refresh()  # added refresh inside start function
             x = self.start()
             if x == 1:
                 won += 1
@@ -188,7 +195,7 @@ class Player2:
             else:
                 looped += 1
             self.gui.update_info(
-                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
+                "Method: predicates\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
                 + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
             self.gui.refresh()
 

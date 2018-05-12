@@ -47,7 +47,7 @@ class GUI:
         self.resizeWindow()
 
         self.master.update()
-        # time.sleep(1)
+        time.sleep(1)
 
     def resizeWindow(self):
         w = self.canvas_width
@@ -62,35 +62,29 @@ class GUI:
         d = TrainingSettingsDialog(self.master)
         if not d.canceled:
             if d.predicates_method:
-                self.app.predicates.play(settings=d.result)
+                self.app.player2.play(settings=d.result)
             else:
                 self.app.player.train(settings=d.result)
 
     def refresh(self):
-        self.fill_canvas()
         for row in range(self.app.saper.GetSizeX()):
             for col in range(self.app.saper.GetSizeY()):
 
+                x1 = (row * self.square_size)
+                y1 = (col * self.square_size)
+
                 if not app.saper.covered[row][col]:
-                    x1 = (row * self.square_size)
-                    y1 = (col * self.square_size)
 
                     if self.app.saper.board[row][col] == -1:
-                        image = self.red_bomb
+                        self.canvas.create_image(x1, y1, image=self.red_bomb, anchor=NW)
                     elif self.app.saper.board[row][col] == 1:
-                        image = self.one
+                        self.canvas.create_image(x1, y1, image=self.one, anchor=NW)
                     elif self.app.saper.board[row][col] == 2:
-                        image = self.two
+                        self.canvas.create_image(x1, y1, image=self.two, anchor=NW)
                     elif self.app.saper.board[row][col] == 3:
-                        image = self.three
+                        self.canvas.create_image(x1, y1, image=self.blank, anchor=NW)
                     else:
-                        image = self.blank
-                    self.canvas.create_image(x1, y1, image=image, anchor=NW)
-                elif self.app.saper.outBoard[row][col] == -1:
-                    x1 = (row * self.square_size)
-                    y1 = (col * self.square_size)
-                    image = self.bomb
-                    self.canvas.create_image(x1, y1, image=image, anchor=NW)
+                        self.canvas.create_image(x1, y1, image=self.blank, anchor=NW)
 
         self.master.update()
         time.sleep(1)
@@ -104,7 +98,11 @@ class GUI:
             for col in range(self.app.saper.GetSizeY()):
                 x1 = (row * self.square_size)
                 y1 = (col * self.square_size)
-                self.canvas.create_image(x1, y1, image=self.covered, anchor=NW)
+
+                if self.app.saper.board[row][col] == -1:
+                    self.canvas.create_image(x1, y1, image=self.bomb, anchor=NW)
+                else:
+                    self.canvas.create_image(x1, y1, image=self.covered, anchor=NW)
 
 
 class App:
