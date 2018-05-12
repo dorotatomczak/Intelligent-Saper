@@ -78,9 +78,26 @@ class Player:
 
     def train(self,
               learning_rate=1e-3,
-              reg=5e-6, num_iters=100, verbose=False):
+              reg=5e-6, verbose=False, settings=None):
         # num_train = self.X.shape[0]
         # iterations_per_epoch = max(num_train / batch_size, 1)
+
+        if settings is None:
+            num_iters = 100
+            min_height = 5
+            max_height = 10
+            min_width = 5
+            max_width = 10
+            min_bombs = 1
+            max_bombs = 5
+        else:
+            num_iters = settings['Games']
+            min_height = settings['minHeight']
+            max_height = settings['maxHeight']
+            min_width = settings['minWidth']
+            max_width = settings['maxWidth']
+            min_bombs = settings['minBombs']
+            max_bombs = settings['maxBombs']
 
         loss_history = []
         train_acc_history = []
@@ -88,9 +105,9 @@ class Player:
         lost = 0
         for i in range(0, num_iters):
             iteration = 0
-            bombs = rand.randint(5, 10)
-            width = rand.randint(10, 15)
-            height = rand.randint(10, 15)
+            bombs = rand.randint(min_bombs, max_bombs)
+            width = rand.randint(min_width, max_width)
+            height = rand.randint(min_height, max_height)
             self.sc.createBoard(bombs, width, height)
             self.sc.UncoverField(0, 0)
             self.gui.update_info(

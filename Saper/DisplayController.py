@@ -1,8 +1,10 @@
-import tkinter as tk
-
+from tkinter import *
+from Saper.Dialog import *
 from Saper.SaperController import SaperController
 from Saper.Player import Player
+from Saper.Predykaty import Predykaty
 import time
+
 
 class GUI:
     def __init__(self, app):
@@ -13,24 +15,24 @@ class GUI:
         self.canvas_width = 200
         self.canvas_height = 200
 
-        self.covered = tk.PhotoImage(file='res/covered.gif')
-        self.blank = tk.PhotoImage(file='res/blank.gif')
-        self.one = tk.PhotoImage(file='res/one.gif')
-        self.two = tk.PhotoImage(file='res/two.gif')
-        self.three = tk.PhotoImage(file='res/three.gif')
-        self.bomb = tk.PhotoImage(file='res/bomb.gif')
-        self.red_bomb = tk.PhotoImage(file='res/red_bomb.gif')
+        self.covered = PhotoImage(file='res/covered.gif')
+        self.blank = PhotoImage(file='res/blank.gif')
+        self.one = PhotoImage(file='res/one.gif')
+        self.two = PhotoImage(file='res/two.gif')
+        self.three = PhotoImage(file='res/three.gif')
+        self.bomb = PhotoImage(file='res/bomb.gif')
+        self.red_bomb = PhotoImage(file='res/red_bomb.gif')
 
-        self.menu_bar = tk.Menu(self.master)
-        self.menu_bar.add_command(label="Train", command=self.trainSaper)
+        self.menu_bar = Menu(self.master)
+        self.menu_bar.add_command(label="Play", command=self.trainSaper)
         self.master.config(menu=self.menu_bar)
 
-        self.canvas = tk.Canvas(self.master, width=self.canvas_width, height=self.canvas_height, background="grey")
+        self.canvas = Canvas(self.master, width=self.canvas_width, height=self.canvas_height, background="grey")
         self.canvas.pack(side="top", fill="both", anchor="c", expand=True)
 
-        self.text = tk.Text(self.master, width=1, height=80)
-        self.text.insert(tk.INSERT, "")
-        self.text.pack(fill=tk.BOTH, expand=1)
+        self.text = Text(self.master, width=1, height=80)
+        self.text.insert(INSERT, "")
+        self.text.pack(fill=BOTH, expand=1)
 
         self.resizeWindow()
 
@@ -57,13 +59,18 @@ class GUI:
         self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))  # set window size and place in the center
 
     def trainSaper(self):
-        self.app.player.train(num_iters=1000, verbose=True)
+        d = TrainingSettingsDialog(self.master)
+        if not d.canceled:
+            if d.predicates_method:
+                self.app.predicates.play(settings=d.result)
+            else:
+                self.app.player.train(settings=d.result)
 
     def refresh(self):
         for row in range(self.app.saper.GetSizeX()):
             for col in range(self.app.saper.GetSizeY()):
 
-                if app.saper.covered[row][col] == False:
+                if not app.saper.covered[row][col]:
                     x1 = (row * self.square_size)
                     y1 = (col * self.square_size)
 
@@ -77,21 +84,21 @@ class GUI:
                         image = self.three
                     else:
                         image = self.blank
-                    self.canvas.create_image(x1, y1, image=image, anchor=tk.NW)
+                    self.canvas.create_image(x1, y1, image=image, anchor=NW)
 
         self.master.update()
         time.sleep(1)
 
-    def update_info(self, newInfo):
-        self.text.delete("1.0", tk.END)
-        self.text.insert(tk.END, newInfo)
+    def update_info(self, new_info):
+        self.text.delete("1.0", END)
+        self.text.insert(END, new_info)
 
     def fill_canvas(self):
         for row in range(self.app.saper.GetSizeX()):
             for col in range(self.app.saper.GetSizeY()):
                 x1 = (row * self.square_size)
                 y1 = (col * self.square_size)
-                self.canvas.create_image(x1, y1, image=self.covered, anchor=tk.NW)
+                self.canvas.create_image(x1, y1, image=self.covered, anchor=NW)
 
 
 class App:
@@ -101,10 +108,12 @@ class App:
         self.master = master
         self.gui = GUI(self)
         self.player = Player(self)
+        self.predicates = Predykaty(self)
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
+    root = Tk()
+    root.minsize(200, 200)
     root.resizable(width=False, height=False)
     app = App(root)
     root.mainloop()

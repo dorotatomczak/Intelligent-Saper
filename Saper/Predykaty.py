@@ -6,8 +6,9 @@ blankid = 10
 bombid = -1
 
 class Predykaty:
-    def __init__(self, saperController):
-        self.sc = saperController
+    def __init__(self, app):
+        self.sc = app.saper
+        self.gui = app.gui
         self.sizey = self.sc.GetSizeY()
         self.sizex = self.sc.GetSizeX()
         self.board = [[blankid for y in range(self.sizey)] for x in range(self.sizex)]
@@ -166,8 +167,53 @@ class Predykaty:
             for j in range(0, self.sizex):
                 print(self.board[i][j])
 
+    def play(self, settings=None):
+        if settings is None:
+            num_iters = 100
+            min_height = 5
+            max_height = 10
+            min_width = 5
+            max_width = 10
+            min_bombs = 1
+            max_bombs = 5
+        else:
+            num_iters = settings['Games']
+            min_height = settings['minHeight']
+            max_height = settings['maxHeight']
+            min_width = settings['minWidth']
+            max_width = settings['maxWidth']
+            min_bombs = settings['minBombs']
+            max_bombs = settings['maxBombs']
 
-won = 0
+            won = 0
+            lost = 0
+            looped = 0
+            firstmove = 0
+
+        for i in range(0, num_iters):
+            bombs = rand.randint(min_bombs, max_bombs)
+            width = rand.randint(min_width, max_width)
+            height = rand.randint(min_height, max_height)
+            self.sc.createBoard(bombs, width, height)
+            self.gui.update_info(
+                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
+                + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
+            self.gui.refresh()
+            x = self.start()
+            if x == 1:
+                won += 1
+            elif x == -1:
+                lost += 1
+            elif x == 3:
+                firstmove += 1
+            else:
+                looped += 1
+            self.gui.update_info(
+                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(won) + "\nLost count:" + str(lost)
+                + "\nLooped count:" + str(looped) + "\nFirst move count: " + str(firstmove))
+            self.gui.refresh()
+
+"""won = 0
 lost = 0
 looped = 0
 firstmove = 0
@@ -197,7 +243,7 @@ print(lost)
 print("Looped:")
 print(looped)
 print("First move:")
-print(firstmove)
+print(firstmove)"""
 
 # saper = SaperController()
 # saper.createBoard(1, 15, 15)
