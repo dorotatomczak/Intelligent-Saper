@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49901f11-8ea8-4f13-beb2-c5dab1ce8707" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Saper/ConsolePlayer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Saper/dqn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Saper.iml" afterPath="$PROJECT_DIR$/.idea/Saper.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Saper/Player.py" afterPath="$PROJECT_DIR$/Saper/Player.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Saper/ConsolePlayer.py" afterPath="$PROJECT_DIR$/Saper/ConsolePlayer.py" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,23 +53,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConsolePlayer.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ConsolePlayer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Saper/ConsolePlayer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#7539#7733#0" expanded="false" />
+                <element signature="e#7580#7774#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dqn.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dqn.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Saper/dqn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2533">
+            <state relative-caret-position="1768">
               <caret line="179" column="26" lean-forward="false" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
@@ -107,9 +103,9 @@
         <option value="$PROJECT_DIR$/Saper/DisplayController.py" />
         <option value="$PROJECT_DIR$/Saper/res/DQN.py" />
         <option value="$PROJECT_DIR$/Saper/DQN.py" />
-        <option value="$PROJECT_DIR$/Saper/ConsolePlayer.py" />
         <option value="$PROJECT_DIR$/Saper/Player.py" />
         <option value="$PROJECT_DIR$/Saper/dqn.py" />
+        <option value="$PROJECT_DIR$/Saper/ConsolePlayer.py" />
       </list>
     </option>
   </component>
@@ -205,7 +201,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.dqn">
+  <component name="RunManager" selected="Python.ConsolePlayer">
     <configuration default="false" name="DisplayController" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -434,8 +430,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.dqn" />
-        <item index="1" class="java.lang.String" itemvalue="Python.ConsolePlayer" />
+        <item index="0" class="java.lang.String" itemvalue="Python.ConsolePlayer" />
+        <item index="1" class="java.lang.String" itemvalue="Python.dqn" />
         <item index="2" class="java.lang.String" itemvalue="Python.Player" />
         <item index="3" class="java.lang.String" itemvalue="Python.Predykaty" />
         <item index="4" class="java.lang.String" itemvalue="Python.DisplayController" />
@@ -467,7 +463,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -525,7 +521,7 @@
           <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#7539#7733#0" expanded="false" />
+            <element signature="e#7580#7774#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -823,23 +819,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Saper/ConsolePlayer.py">
+    <entry file="file://$PROJECT_DIR$/Saper/dqn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+        <state relative-caret-position="1768">
+          <caret line="179" column="26" lean-forward="false" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#7539#7733#0" expanded="false" />
+            <element signature="e#0#49#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Saper/dqn.py">
+    <entry file="file://$PROJECT_DIR$/Saper/ConsolePlayer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2533">
-          <caret line="179" column="26" lean-forward="false" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
+        <state relative-caret-position="360">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
-            <element signature="e#0#49#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#7580#7774#0" expanded="false" />
           </folding>
         </state>
       </provider>

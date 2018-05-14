@@ -12,6 +12,7 @@ class Player:
         self.b1 = np.zeros(self.hiddenLayerSize)
         self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.001
         self.b2 = np.zeros(self.oneBoardSize**2)
+        self.bombs = 3
 
 
     def PrepareData(self):
@@ -87,7 +88,7 @@ class Player:
         for i in range(0, num_iters):
             iteration = 0
 
-            bombs = 6
+            bombs = self.bombs
             width = 8
             self.sc.createBoard(bombs, width, width)
             x = rand.randint(0, self.sc.GetSizeX() - 1)
@@ -165,7 +166,7 @@ class Player:
     def checkAccuracy(self, tries):
         win = 0
         for i in range(tries):
-            bombs = 5#rand.randint(4, 6)
+            bombs = self.bombs#rand.randint(4, 6)
             width = 8#rand.randint(4, 6)
             self.sc.createBoard(bombs, width, width)
             x = rand.randint(0, self.sc.GetSizeX() - 1)
