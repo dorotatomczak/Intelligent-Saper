@@ -1,9 +1,10 @@
 import numpy as np
+from Saper.SaperController import SaperController
 import random as rand
 
 class Player:
-    def __init__(self, app):
-        self.sc = app.saper
+    def __init__(self, saperController):
+        self.sc = saperController
         self.oneBoardSize = 3
         self.hiddenLayerSize = 100
 
@@ -26,7 +27,6 @@ class Player:
                 self.y[i,j] = int (self.sc.GetValueAt(i,j) == -1)
 
         self.y = self.reshape(self.y)
-
 
     def reshape(self,board):
         smallArray = board[:self.oneBoardSize, :self.oneBoardSize]
@@ -53,6 +53,7 @@ class Player:
         exp_scores = np.exp(scores)
 
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+
         corect_logprobs = -np.log(probs[np.transpose([np.arange(num_train)]), y])
         data_loss = np.sum(corect_logprobs) / num_train
         reg_loss = reg * np.sum(W1 * W1) + reg * np.sum(W2 * W2)
@@ -77,24 +78,7 @@ class Player:
 
     def train(self,
               learning_rate=1e-3,
-              reg=5e-6, verbose=False, settings=None):
-
-        if settings is None:
-            num_iters = 100
-            min_height = 5
-            max_height = 10
-            min_width = 5
-            max_width = 10
-            min_bombs = 1
-            max_bombs = 5
-        else:
-            num_iters = settings['Games']
-            min_height = settings['minHeight']
-            max_height = settings['maxHeight']
-            min_width = settings['minWidth']
-            max_width = settings['maxWidth']
-            min_bombs = settings['minBombs']
-            max_bombs = settings['maxBombs']
+              reg=5e-6, num_iters=100, verbose=False):
 
         loss_history = []
         train_acc_history = []
@@ -102,18 +86,21 @@ class Player:
         lost = 0
         for i in range(0, num_iters):
             iteration = 0
-            bombs = rand.randint(min_bombs, max_bombs)
-            width = rand.randint(min_width, max_width)
-            height = rand.randint(min_height, max_height)
-            self.sc.createBoard(bombs, width, height)
-            self.sc.UncoverField(0, 0)
-            self.gui.update_info(
-                "Method: Neural Network\nGame:" + str(i+1) + "\nWin count:" + str(win) + "\nLost count:" + str(lost))
-            self.gui.loadNewBoard()
-            self.gui.refresh()
+
+            bombs = 6
+            width = 8
+            self.sc.createBoard(bombs, width, width)
+            x = rand.randint(0, self.sc.GetSizeX() - 1)
+            y = rand.randint(0, self.sc.GetSizeY() - 1)
+            self.sc.UncoverField(x,y)
             while self.sc.GetState() == 0:
 
                 self.PrepareData()
+                if np.sum(self.y) == 0:
+                    x = rand.randint(0, self.sc.GetSizeX() - 1)
+                    y = rand.randint(0, self.sc.GetSizeY() - 1)
+                    self.sc.UncoverField(x, y)
+                    continue
                 loss, grads = self.loss(self.X, y=self.y, reg=reg)
                 loss_history.append(loss)
 
@@ -122,7 +109,7 @@ class Player:
                 self.W2 -= learning_rate * grads['W2']
                 self.b2 -= learning_rate * grads['b2']
 
-                if verbose and i % 10 == 0:
+                if verbose and i % 50 == 0:
                     print('iteration %d (%d. game): loss %f' % (iteration, i, loss))
 
                 iteration += 1
@@ -134,26 +121,24 @@ class Player:
 
                 self.sc.UncoverField(x, y)
 
+
             if self.sc.GetState() == 1:
-                win += 1
+                win +=1
+                print("win: %d / %d  %f, moves %d"%(win,i,win/(i+1), iteration+1))
             if self.sc.GetState() == -1:
-                lost += 1
-            if verbose and i % 10 == 0 and i > 100:
-                tryGames = 10
+                lost +=1
+            if verbose and i % 200 == 0 and i>500:
+                tryGames = 100
                 acc = self.checkAccuracy(tryGames)
                 print(
-                        'Moves %d (%d. game), accuracy in %d games: %f' % (
-                        iteration, i, tryGames, acc))
-
-            self.gui.update_info(
-                    "Method: Neural Network\nGame:" + str(i+1) +
-                    "\nWin count:" + str(win) + "\nLost count:" + str(lost))
-            self.gui.refresh()
+                        'Accuracy in %d games: %f' % (
+                        tryGames, acc))
 
         return {
             'loss_history': loss_history,
             'train_acc_history': train_acc_history,
         }
+
 
     def predict(self, X):
         num_train = X.shape[0]
@@ -164,15 +149,14 @@ class Player:
         scores = scores[np.arange(num_train)] - np.max(scores[np.arange(num_train)])
         exp_scores = np.exp(scores)
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
-
         pred_bombs = np.array([[-1.0 for y in range(self.sc.GetSizeY())] for x in range(self.sc.GetSizeX())])
         smallArSize = self.oneBoardSize
         size_y = self.sc.GetSizeY()
 
         for i in range(0, probs.shape[0]):
             for k in range(0, probs.shape[1]):
-                a = int((int(i / (size_y - smallArSize + 1)) + int(k / smallArSize)))
-                b = (i % (size_y - smallArSize + 1) + k % smallArSize) % size_y
+                a = int((int(i/(size_y - smallArSize + 1))+int(k/smallArSize)))
+                b = (i%(size_y - smallArSize+1)+k%smallArSize)%size_y
                 pred_bombs[a][b] = max(pred_bombs[a][b], probs[i][k])
 
 
@@ -181,28 +165,65 @@ class Player:
     def checkAccuracy(self, tries):
         win = 0
         for i in range(tries):
-            bombs = rand.randint(4, 6)
-            width = rand.randint(4, 6)
+            bombs = 5#rand.randint(4, 6)
+            width = 8#rand.randint(4, 6)
             self.sc.createBoard(bombs, width, width)
-            self.sc.UncoverField(0, 0)
+            x = rand.randint(0, self.sc.GetSizeX() - 1)
+            y = rand.randint(0, self.sc.GetSizeY() - 1)
+            self.sc.UncoverField(x,y)
+
 
             while self.sc.GetState() == 0:
 
                 self.PrepareData()
                 pred_bombs = self.predict(self.X)
-                x = int(np.argmin(pred_bombs) / self.sc.GetSizeY())
-                y = np.argmin(pred_bombs) % self.sc.GetSizeY()
+                x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                y=np.argmin(pred_bombs)%self.sc.GetSizeY()
                 it = 0
-                while (self.sc.GetBoard())[x][y] != 10:
-                    pred_bombs[x][y] = 1
-                    x = int(np.argmin(pred_bombs) / self.sc.GetSizeY())
-                    y = np.argmin(pred_bombs) % self.sc.GetSizeY()
-                    it += 1
+                while (self.sc.GetBoard())[x][y] != 10 :
+                    pred_bombs[x][y]=1
+                    x=int(np.argmin(pred_bombs)/self.sc.GetSizeY())
+                    y=np.argmin(pred_bombs)%self.sc.GetSizeY()
+                    it+=1
 
                 self.sc.UncoverField(x, y)
 
             if self.sc.GetState() == 1:
-                win += 1
-                print("win")
+                win +=1
 
         return win/tries
+
+
+
+        smallArray = np.reshape(example_y[0], (1, self.oneBoardSize ** 2))
+        B = smallArray
+
+        smallArray = np.reshape(example_y[1], (1, self.oneBoardSize ** 2))
+        B = np.append(B, smallArray, axis=0)
+
+        for i in range(1, 9):
+            smallArray = np.reshape(example_y[i * 2], (1, self.oneBoardSize ** 2))
+            B = np.append(B, smallArray, axis=0)
+
+            smallArray = np.reshape(example_y[i * 2 + 1], (1, self.oneBoardSize ** 2))
+            B = np.append(B, smallArray, axis=0)
+
+        self.example_y = B
+
+    def match(self, srcArr):
+        if np.sum(np.array(srcArr) == 10) != 1:
+            return False
+
+        for i in range(self.oneBoardSize ** 2):
+            if srcArr[i] == 10:
+                return self.example_y[i * 2 + 1]
+
+    def checkEdges(self):
+        pass
+
+saper = SaperController()
+saper.createBoard(4, 8,8)
+player = Player(saper)
+# player.sc.UncoverField(2,2)
+# player.PrepareData()
+player.train(num_iters=100000,verbose=True)
