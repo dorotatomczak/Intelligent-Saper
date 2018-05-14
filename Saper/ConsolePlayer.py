@@ -13,6 +13,7 @@ class Player:
         self.W2 = np.random.randn(self.hiddenLayerSize, self.oneBoardSize**2) * 0.001
         self.b2 = np.zeros(self.oneBoardSize**2)
         self.bombs = 3
+        self.boardSize = 8
 
 
     def PrepareData(self):
@@ -89,7 +90,7 @@ class Player:
             iteration = 0
 
             bombs = self.bombs
-            width = 8
+            width = self.boardSize
             self.sc.createBoard(bombs, width, width)
             x = rand.randint(0, self.sc.GetSizeX() - 1)
             y = rand.randint(0, self.sc.GetSizeY() - 1)
@@ -166,8 +167,8 @@ class Player:
     def checkAccuracy(self, tries):
         win = 0
         for i in range(tries):
-            bombs = self.bombs#rand.randint(4, 6)
-            width = 8#rand.randint(4, 6)
+            bombs = self.bombs
+            width = self.boardSize
             self.sc.createBoard(bombs, width, width)
             x = rand.randint(0, self.sc.GetSizeX() - 1)
             y = rand.randint(0, self.sc.GetSizeY() - 1)
@@ -195,36 +196,6 @@ class Player:
         return win/tries
 
 
-
-        smallArray = np.reshape(example_y[0], (1, self.oneBoardSize ** 2))
-        B = smallArray
-
-        smallArray = np.reshape(example_y[1], (1, self.oneBoardSize ** 2))
-        B = np.append(B, smallArray, axis=0)
-
-        for i in range(1, 9):
-            smallArray = np.reshape(example_y[i * 2], (1, self.oneBoardSize ** 2))
-            B = np.append(B, smallArray, axis=0)
-
-            smallArray = np.reshape(example_y[i * 2 + 1], (1, self.oneBoardSize ** 2))
-            B = np.append(B, smallArray, axis=0)
-
-        self.example_y = B
-
-    def match(self, srcArr):
-        if np.sum(np.array(srcArr) == 10) != 1:
-            return False
-
-        for i in range(self.oneBoardSize ** 2):
-            if srcArr[i] == 10:
-                return self.example_y[i * 2 + 1]
-
-    def checkEdges(self):
-        pass
-
 saper = SaperController()
-saper.createBoard(4, 8,8)
 player = Player(saper)
-# player.sc.UncoverField(2,2)
-# player.PrepareData()
 player.train(num_iters=100000,verbose=True)

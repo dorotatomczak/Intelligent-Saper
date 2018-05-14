@@ -204,6 +204,5 @@ class Player:
 
             if self.sc.GetState() == 1:
                 win += 1
-                print("win")
 
         return win/tries
