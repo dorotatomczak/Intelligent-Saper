@@ -22,6 +22,7 @@ class GUI:
         self.three = PhotoImage(file='res/three.gif')
         self.bomb = PhotoImage(file='res/bomb.gif')
         self.red_bomb = PhotoImage(file='res/red_bomb.gif')
+        self.flag = PhotoImage(file='res/flag.gif')
 
         self.menu_bar = Menu(self.master)
         self.menu_bar.add_command(label="Play", command=self.trainSaper)
@@ -30,7 +31,7 @@ class GUI:
         self.canvas = Canvas(self.master, width=self.canvas_width, height=self.canvas_height, background="grey")
         self.canvas.pack(side="top", fill="both", anchor="c", expand=True)
 
-        self.text = Text(self.master, width=1, height=80)
+        self.text = Text(self.master, width=1, height=100)
         self.text.insert(INSERT, "")
         self.text.pack(fill=BOTH, expand=1)
 
@@ -51,7 +52,7 @@ class GUI:
 
     def resizeWindow(self):
         w = self.canvas_width
-        h = self.canvas_height + 80
+        h = self.canvas_height + 100
         ws = self.master.winfo_screenwidth()
         hs = self.master.winfo_screenheight()
         x = (ws / 2) - (w / 2)
@@ -86,7 +87,7 @@ class GUI:
                     else:
                         self.canvas.create_image(x1, y1, image=self.blank, anchor=NW)
                 elif app.saper.outBoard[row][col] == -1:
-                    self.canvas.create_image(x1, y1, image=self.bomb, anchor=NW)
+                    self.canvas.create_image(x1, y1, image=self.flag, anchor=NW)
         self.master.update()
         time.sleep(1)
 

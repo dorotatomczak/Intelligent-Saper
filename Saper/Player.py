@@ -4,6 +4,7 @@ import random as rand
 class Player:
     def __init__(self, app):
         self.sc = app.saper
+        self.gui = app.gui
         self.oneBoardSize = 3
         self.hiddenLayerSize = 100
 
